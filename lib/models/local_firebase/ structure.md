@@ -1,21 +1,22 @@
 ```
 AppDocDirectory
-    -firebase.dir
-        -app1.dir
-            -app1.hiveBox('fire-app1')
+    -firebase.app(config json)
+    -app1.dir
+        -app1.hiveInit('fire-app1').dir
+            -schema.hiveBox('fire-.app1')
                 rootcollection.key:[]
                 collectionid.key : Collection
                 collectionid.key : Collection
                 .
                 .
-            -doc1.hiveBox('name according to convention')-> all the docs in this app
+            -doc1.hiveBox(hash(address))-> all the docs in this app
             -doc2.hiveBox()
             .
             .
-        -app2.hive
-        .
-        .
-        .
+    -app2.hive
+    .
+    .
+    .
 
 ```
 
@@ -28,23 +29,42 @@ Collection.map(fire-app1-collectionname)
         .
         .
     ]
+   
     
 ```
 ```
 Documents.hiveBox(fire-app1-collectionname-docname)
-    collections.key:{
-        ids.key:[],
-        collectionid.key:Collection,
-        collectionid.key:Collection,
-        .
-        .
-    }
-    documents.key:{
-        key:value,
-        key:value,
-        key:value,
-        .
-        .
-        .
-    }
+    address:
+    collections-ids.key:[],
+    lfire-.collectionid.key:Collection,
+    lfire-.collectionid.key:Collection,
+    .
+    .
+    
+    key:value,
+    key:value,
+    key:value,
+    .
+    .
+    .
+    
 ```
+```
+Library control structure
+firebase -> firestore -> Collection -> Documents 
+```
+```
+addresses
+root collection :
+    face value - collection-name
+    value - fireapp-.collection-name
+documents : 
+    face value - some-root-collecton/somedoc/somecoll/somedoc
+    value -
+collection :
+    face value - some-root-collecton/somedoc/somecoll/somedoc/somecoll
+    value -
+```
+# Problems
+    - hive.init is called more than once
+    - 

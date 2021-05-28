@@ -12,12 +12,17 @@ abstract class LocalFirebaseIO {
     firebaseConfig = File('${_appdir!.path}/firebase.app');
   }
 
+  Future<void> ioInit() async {
+    await getdir();
+    await firebaseConfig!.writeAsString(jsonEncode({"Apps": []}));
+  }
+
   Future<void> loadMap() async {
     await getdir();
     configMap = jsonDecode(await firebaseConfig!.readAsString());
   }
 
-  Future<bool> firebasExists() async {
+  Future<bool> firebaseExists() async {
     await loadMap();
     if (configMap['Apps'] == null) {
       return false;

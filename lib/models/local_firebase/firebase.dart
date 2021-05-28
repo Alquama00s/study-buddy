@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:study_buddy/models/local_firebase/firestore.dart';
@@ -8,9 +9,9 @@ class LocalFirebase extends LocalFirebaseIO {
   LocalFirebase();
 
   Future<void> init() async {
-    if (!await firebasExists()) {
+    await ioInit();
+    if (!await firebaseExists()) {
       await firebaseConfig!.writeAsString(jsonEncode({"Apps": []}));
-      await Hive.initFlutter("firebase");
     }
   }
 
@@ -22,31 +23,6 @@ class LocalFirebase extends LocalFirebaseIO {
     await loadMap();
     configMap['Apps'].add(appname);
     firebaseConfig!.writeAsString(jsonEncode(configMap));
-    await Hive.openBox(appname);
-  }
-}
-
-class Documents {
-  String address;
-  Box<dynamic>? doc;
-  Documents(this.address);
-  void init() async {
-    doc = await Hive.openBox(address);
-  }
-
-  bool isInitialized() {
-    return doc != null;
-  }
-}
-
-class Collection {
-  String address;
-  Collection(this.address);
-  List<String> doclist = [];
-  void addDoc(String name) async {
-    if (!doclist.contains(name)) {
-      doclist.add(name);
-      await Hive.openBox('$address/$name');
-    }
+    await await Hive.initFlutter("firebase-.$appname");
   }
 }
