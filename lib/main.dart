@@ -1,11 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:study_buddy/formula_main.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:study_buddy/models/firebase_driver.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(Root());
@@ -18,20 +14,15 @@ class Root extends StatelessWidget {
       home: Scaffold(
         body: SafeArea(
           child: FutureBuilder(
-            future: init(),
+            future: Firebase.initializeApp(),
             builder: (context, snap) {
               if (snap.connectionState == ConnectionState.done) {
-                return Center(
-                  child: MaterialButton(
-                    onPressed: () async {
-                      await tests();
-                    },
-                    child: Text('start'),
-                  ),
-                );
+                return FormMain();
               }
               return Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.black38,
+                ),
               );
             },
           ),
