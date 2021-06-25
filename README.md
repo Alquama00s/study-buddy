@@ -6,8 +6,9 @@ An app to store organised list of formulae
 
     - fetch a page from firebase --done
     - design sections
-        - booklet model
-    - deploy sections in firebase
+        - booklet model --done
+    - deploy sections in firebase --done
+    - uploading system
 
 ## Contributions
 
