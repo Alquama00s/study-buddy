@@ -3,6 +3,11 @@ import 'package:flutter_tex/flutter_tex.dart';
 import 'package:flutter/widgets.dart';
 import 'package:study_buddy/gloabal.dart';
 
+/*
+ * the Formula class is responsible for rendring a string of
+ * tex
+ * the FormulaPage is responsible for rendring a list of tex strings 
+ */
 class Formula {
   String texString = "";
   int lineno = 1;
@@ -35,38 +40,39 @@ class FormulaPage {
       ans += r"<p></p>";
     }
     ans += r"</p>";
-    print(ans);
     return ans;
   }
 
   Widget render() => Scaffold(
       backgroundColor: pageback,
-      body: FutureBuilder(
-        future: concat(),
-        builder: (context, snap) {
-          if (snap.connectionState == ConnectionState.done) {
-            return TeXView(
-              child: TeXViewDocument(
-                snap.data.toString(),
-                style: TeXViewStyle(
-                  backgroundColor: pageback,
-                  padding: TeXViewPadding.only(
-                    right: 10,
-                    left: 10,
-                    top: 5,
-                    bottom: 5,
+      body: SafeArea(
+        child: FutureBuilder(
+          future: concat(),
+          builder: (context, snap) {
+            if (snap.connectionState == ConnectionState.done) {
+              return TeXView(
+                child: TeXViewDocument(
+                  snap.data.toString(),
+                  style: TeXViewStyle(
+                    backgroundColor: pageback,
+                    padding: TeXViewPadding.only(
+                      right: 10,
+                      left: 10,
+                      top: 5,
+                      bottom: 5,
+                    ),
                   ),
                 ),
-              ),
-              loadingWidgetBuilder: (context) => Center(
+                loadingWidgetBuilder: (context) => Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            } else {
+              return Center(
                 child: CircularProgressIndicator(),
-              ),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+              );
+            }
+          },
+        ),
       ));
 }

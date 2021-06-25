@@ -1,4 +1,4 @@
-# study_buddy
+# Study Buddy
 
 An app to store organised list of formulae
 
