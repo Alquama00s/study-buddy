@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:study_buddy/edit.dart';
 import 'package:study_buddy/models/book.dart';
 import 'package:study_buddy/models/formula.dart';
 
@@ -12,6 +13,7 @@ class Page_ extends StatelessWidget {
       : super(key: key);
   final Book book;
   final String chapter;
+  String text = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +22,21 @@ class Page_ extends StatelessWidget {
           future: book.getChapter(chapter),
           builder: (context, snap) {
             if (snap.connectionState == ConnectionState.done) {
-              return Formula(snap.data.toString()).render();
+              text = snap.data.toString();
+              return Formula(text).render();
             }
             return Center(
               child: CircularProgressIndicator(),
             );
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Edit(text: text)));
+        },
+        child: Icon(Icons.edit),
       ),
     );
   }

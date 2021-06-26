@@ -13,13 +13,12 @@ class Formula {
   int lineno = 1;
   Formula(this.texString, {this.lineno = 1});
   Widget render() => Container(
-      height: 50 * lineno.toDouble(),
+      padding: EdgeInsets.all(10),
+      height: double.infinity,
       child: TeXView(
+          renderingEngine: TeXViewRenderingEngine.katex(),
           child: TeXViewDocument(
             texString,
-            style: TeXViewStyle(
-              height: 50,
-            ),
           ),
           loadingWidgetBuilder: (context) => Container(
               height: 50,
