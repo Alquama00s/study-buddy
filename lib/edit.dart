@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:study_buddy/models/book.dart';
 import 'package:study_buddy/models/formula.dart';
+import 'package:study_buddy/page.dart';
 
 /*
  * this widget is to edit formulas inside pages
  */
 class Edit extends StatefulWidget {
-  Edit({Key? key, required this.text}) : super(key: key) {
+  Edit({Key? key, required this.book}) : super(key: key) {
+    text = book.getCurrChapter();
     _body = _textform(text, fun);
   }
+  final Book book;
   late String text;
   late Widget _body;
   void fun(String text) {
@@ -62,7 +66,17 @@ class _EditState extends State<Edit> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          await widget.book.updateChapter(widget.text);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Page_(
+                      book: Book(widget.book.getCurrBook()),
+                      chapter: widget.book.getCurrChapterTitle())));
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

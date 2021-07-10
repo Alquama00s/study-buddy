@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:study_buddy/gloabal.dart';
 import 'package:study_buddy/main_page.dart';
 import 'package:study_buddy/packages/firebase_driver.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 /**
  * this widget checks version if it is updated 
@@ -19,6 +20,11 @@ class Version extends StatelessWidget {
           future: getFire('schema/app'),
           builder: (context, snap) {
             if (snap.connectionState == ConnectionState.done) {
+              if ((snap.data as Map)["error"] == 1) {
+                return Center(
+                  child: Icon(Icons.error),
+                );
+              }
               if ((snap.data as Map)[version] == null) {
                 return Center(
                   child: Column(

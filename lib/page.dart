@@ -33,8 +33,12 @@ class Page_ extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Edit(text: text)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Edit(
+                        book: book,
+                      )));
         },
         child: Icon(Icons.edit),
       ),
