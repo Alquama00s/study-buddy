@@ -1,16 +1,45 @@
 # Study Buddy
 
-An app to store organised list of formulae
+This app lets u write and render mathematical formulae with ease. It uses a combination of HTML and Latex to typeset your notes render it beautifully store it synced between devices.
 
-## plans
+# Demo
+<div style='text-align:center'><img src='./screens/_gif.gif' width=500 ></div>
 
-    - fetch a page from firebase --done
-    - design sections
-        - booklet model --done
-    - deploy sections in firebase --done
-    - uploading system
+## Contents
 
-## Contributions
+1. [Description](#description)
+1. [Project structure](#project-structure)
+1. [Project roadmap](#project-roadmap)
+1. [License](#license)
 
-- feel free to create any of the above mentioned issues.
-- you can even create your own issues.
+## Description
+This project aims to provide a flexible crossplatform note taking solution with help of typsetting. 
+## Project structure
+
+```
+├── .github/            github related files like PR templates, contribution guidelines
+├── android             flutter generated android specific code
+├── lib                 contains all source codes and modules of projects
+  ├──modules          contains low level APIs
+├──test                 individual widgets can be tested here
+├── .gitignore          stores files and directories to be ignored in commits
+├── LICENSE             the open source license
+├── pubspec.yaml        metadata of the project
+├── pubspec.lock        stores version of every package used in the project
+└── readme.md           details and instructions about the project go here
+
+```
+
+## Project roadmap
+- Basic editor for writing formula --done
+- Sync system --done
+- Authentication system --done
+- ui improvements
+- better editor
+- documentations
+
+## Contribution
+Experienced a bug or have a suggestion feel free to create an issue.
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

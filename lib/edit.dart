@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:study_buddy/models/book.dart';
@@ -24,6 +26,7 @@ class Edit extends StatefulWidget {
 }
 
 class _EditState extends State<Edit> {
+  bool busy = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +36,7 @@ class _EditState extends State<Edit> {
       ),
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
-        color: Colors.green,
+        color: Colors.purple,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -67,7 +70,14 @@ class _EditState extends State<Edit> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          setState(() {
+            busy = !busy;
+          });
           await widget.book.updateChapter(widget.text);
+          setState(() {
+            busy = !busy;
+          });
+          sleep(Duration(milliseconds: 500));
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.push(
@@ -77,6 +87,14 @@ class _EditState extends State<Edit> {
                       book: Book(widget.book.getCurrBook()),
                       chapter: widget.book.getCurrChapterTitle())));
         },
+        child: busy
+            ? CircularProgressIndicator(
+                color: Colors.white,
+              )
+            : Icon(
+                Icons.update,
+                size: 30,
+              ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

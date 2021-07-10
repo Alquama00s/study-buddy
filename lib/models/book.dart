@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:study_buddy/gloabal.dart';
 import 'package:study_buddy/packages/firebase_driver.dart';
 
 /*
@@ -15,7 +16,11 @@ class Book {
   };
   Book(this._name);
   Future<List<String>> getContent() async {
-    _chapters = await getDoc(_name, 'title');
+    if (gUser != null) {
+      _chapters = await getDoc('${gUser!.uid}/books/$_name', 'title');
+    } else {
+      _chapters = await getDoc(_name, 'title');
+    }
     return _chapters;
   }
 
@@ -38,21 +43,32 @@ class Book {
   Future<String> getChapter(String ch) async {
     if (_curr_chapter["thischapter"] != ch) {
       _curr_chapter["thischapter"] = ch;
-      await FirebaseFirestore.instance
-          .collection(_name)
-          .where('title', isEqualTo: ch)
-          .get()
-          .then((value) {
-        _curr_chapter["thischapterdata"] = value.docs[0].data()['content'];
-        _curr_chapter["thischapterid"] = value.docs[0].id;
-      });
+      if (gUser != null) {
+        await FirebaseFirestore.instance
+            .collection('${gUser!.uid}/books/$_name')
+            .where('title', isEqualTo: ch)
+            .get()
+            .then((value) {
+          _curr_chapter["thischapterdata"] = value.docs[0].data()['content'];
+          _curr_chapter["thischapterid"] = value.docs[0].id;
+        });
+      } else {
+        await FirebaseFirestore.instance
+            .collection(_name)
+            .where('title', isEqualTo: ch)
+            .get()
+            .then((value) {
+          _curr_chapter["thischapterdata"] = value.docs[0].data()['content'];
+          _curr_chapter["thischapterid"] = value.docs[0].id;
+        });
+      }
     }
     return _curr_chapter["thischapterdata"]!;
   }
 
   Future<void> updateChapter(String newdata) async {
     await FirebaseFirestore.instance
-        .collection(_name)
+        .collection('${gUser!.uid}/books/$_name')
         .doc(_curr_chapter["thischapterid"])
         .update({
       'content': newdata,
@@ -63,8 +79,12 @@ class Book {
   Future<void> createChapter(String name) async {
     if (name != "" && !isChapterPresent(name)) {
       await FirebaseFirestore.instance
-          .collection(_name)
-          .add({'content': "", 'title': name}).then((_) => _chapters.add(name));
+          .collection('${gUser!.uid}/books/$_name')
+          .add({
+        'content': "<h1>$name</h1>" +
+            r"$$a^2$$ $$x={-b \pm \sqrt{b^2-4ac}\over 2a}$$ \(ax^{12}+bz+c\) <li> \(\alpha \Alpha \epsilon \Epsilon \Beta \Tau \beta\) </li>",
+        'title': name
+      }).then((_) => _chapters.add(name));
     }
   }
 
@@ -73,7 +93,7 @@ class Book {
     if (name != "" && isChapterPresent(name)) {
       await getChapter(name);
       await FirebaseFirestore.instance
-          .collection(_name)
+          .collection('${gUser!.uid}/books/$_name')
           .doc(_curr_chapter['thischapterid'])
           .delete();
     }

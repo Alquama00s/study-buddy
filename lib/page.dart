@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:study_buddy/edit.dart';
 import 'package:study_buddy/models/book.dart';
 import 'package:study_buddy/models/formula.dart';
+import 'gloabal.dart';
 
 /*
 * This widget fetches all tex data from Db and
@@ -31,17 +32,19 @@ class Page_ extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Edit(
-                        book: book,
-                      )));
-        },
-        child: Icon(Icons.edit),
-      ),
+      floatingActionButton: gUser == null
+          ? SizedBox()
+          : FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Edit(
+                              book: book,
+                            )));
+              },
+              child: Icon(Icons.edit),
+            ),
     );
   }
 }
