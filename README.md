@@ -3,7 +3,7 @@
 This app lets u write and render mathematical formulae with ease. It uses a combination of HTML and Latex to typeset your notes render it beautifully store it synced between devices.
 
 # Demo
-<div style='text-align:center'><img src='./screens/_gif.gif' width=500 ></div>
+<div style='text-align:center'><img src='./screens/_gif.gif' height=700 ></div>
 
 ## Contents
 
